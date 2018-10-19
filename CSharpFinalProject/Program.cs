@@ -27,18 +27,7 @@ namespace CSharpFinalProject
                 }
             }
             Action(employee);
-            foreach (Employee e in employee)
-            {
-                Console.WriteLine(e);
-            }
-            stream = file.Open(FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
-            using (StreamWriter writer = new StreamWriter(stream))
-            {
-                foreach (Employee emp in employee)
-                {
-                    writer.WriteLine(emp);
-                }
-            }
+            
             
             Console.ReadKey();
         }
@@ -71,16 +60,95 @@ namespace CSharpFinalProject
                     Delete();
                     break;
                 case "5":
-                    Summary();
+                    Summary(e);
                     break;
                 default:
                     Console.Clear();
                     Action(e);
                     break;
             }
-            void Summary()
+            void Summary(Employees empl)
             {
-                throw new NotImplementedException();
+                string field,criteria;
+                Console.WriteLine("Виберіть поле для вибірки:");
+                Console.WriteLine("1: ПІБ");
+                Console.WriteLine("2: Дата народження");
+                Console.WriteLine("3: Посада");
+                Console.WriteLine("4: Підрозділ");
+                Console.WriteLine("5: Оклад");
+                Console.WriteLine("6: Дата працевлаштування");
+                field = Console.ReadLine();
+                IEnumerable<Employee> result;
+                switch (field)
+                {
+                    case "1":
+                        criteria = Criteria();
+                        result = from Employee emp in empl
+                                           where emp.Name.ToUpper().Contains(criteria.ToUpper())|| emp.SecondName.Contains(criteria.ToUpper()) || emp.Surname.Contains(criteria.ToUpper())
+                                           select emp;
+                        foreach (Employee emp in result)
+                        {
+                            Console.WriteLine(emp);
+                        }
+                        break;
+                    case "2":
+                        criteria = Criteria();
+                       result = from Employee emp in empl
+                                                       where emp.BirthDay==DateTime.Parse(criteria)
+                                                       select emp;
+                        foreach (Employee emp in result)
+                        {
+                            Console.WriteLine(emp);
+                        }
+                        break;
+                    case "3":
+                        criteria = Criteria();
+                        result = from Employee emp in empl
+                                                       where emp.position==criteria
+                                                       select emp;
+                        foreach (Employee emp in result)
+                        {
+                            Console.WriteLine(emp);
+                        }
+                        break;
+                    case "4":
+                        criteria = Criteria();
+                        result = from Employee emp in empl
+                                                       where emp.division==criteria
+                                                       select emp;
+                        foreach (Employee emp in result)
+                        {
+                            Console.WriteLine(emp);
+                        }
+                        break;
+                    case "5":
+                        criteria = Criteria();
+                        result = from Employee emp in empl
+                                                       where emp.salary==int.Parse(criteria)
+                                                       select emp;
+                        foreach (Employee emp in result)
+                        {
+                            Console.WriteLine(emp);
+                        }
+                        break;
+                    case "6":
+                        criteria = Criteria();
+                        result = from Employee emp in empl
+                                                       where emp.employmentDate== DateTime.Parse(criteria)
+                                 select emp;
+                        foreach (Employee emp in result)
+                        {
+                            Console.WriteLine(emp);
+                        }
+                        break;
+                    default:
+                        Console.Clear();
+                        Summary(e);
+                        break;
+                }
+                
+
+
             }
             void Delete()
             {
@@ -100,8 +168,19 @@ namespace CSharpFinalProject
                         Action(e);
                         break;
                 }
-                
-                
+                FileInfo file = new FileInfo("data.txt");
+
+                FileStream stream = file.Open(FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
+
+                stream = file.Open(FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
+                using (StreamWriter writer = new StreamWriter(stream))
+                {
+                    foreach (Employee emp in e)
+                    {
+                        writer.WriteLine(emp);
+                    }
+                }
+
 
             }
             void Edit()
@@ -109,19 +188,46 @@ namespace CSharpFinalProject
                 Console.WriteLine("Введіть Id працівника, якого потрібно редагувати:");
                 int id = Convert.ToInt32(Console.ReadLine());
                 e.EditEmployee(id);
-            }
+                FileInfo file = new FileInfo("data.txt");
 
+                FileStream stream = file.Open(FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
+
+                stream = file.Open(FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
+                using (StreamWriter writer = new StreamWriter(stream))
+                {
+                    foreach (Employee emp in e)
+                    {
+                        writer.WriteLine(emp);
+                    }
+                }
+            }
             void Add()
             {
                 e.AddEmployee();
-            }
+                FileInfo file = new FileInfo("data.txt");
 
+                FileStream stream = file.Open(FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
+
+                stream = file.Open(FileMode.Append, FileAccess.ReadWrite, FileShare.Read);
+                using (StreamWriter writer = new StreamWriter(stream))
+                {
+                    foreach (Employee emp in e)
+                    {
+                        writer.WriteLine(emp);
+                    }
+                }
+            }
             void Show()
             {
                 foreach (Employee emp in e)
                 {
                     Console.WriteLine(emp);
                 }
+            }
+            string Criteria()
+            {
+                Console.WriteLine("Введіть критерій пошуку:");
+                return Console.ReadLine();
             }
         }
 
