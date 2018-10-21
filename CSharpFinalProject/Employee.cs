@@ -9,17 +9,22 @@ namespace CSharpFinalProject
 {
     public class Employee
     {
-        public int ID;
-        public string Name, Surname, SecondName;
-        public DateTime BirthDay, employmentDate;
-        public string position, division;
-        public int room,phone;
-        public string email;
-        public int salary;
-        public string notes;
+        public int ID { get; set; }
+        public string Name { get ; set ; }
+        public string Surname { get ; set ; }
+        public string SecondName { get ; set; }
+        public DateTime BirthDay { get ; set ; }
+        public DateTime EmploymentDate { get ; set ; }
+        public string Position { get ; set ; }
+        public string Division { get ; set ; }
+        public int Room { get ; set ; }
+        public int Phone { get ; set ; }
+        public string Email { get ; set ; }
+        public int Salary { get ; set ; }
+        public string Notes { get ; set ; }
+
         public Employee()
         {
-
         }
         public Employee(int id, string surname, string name, string secondname, DateTime birthday, DateTime empDate, string pos, string div, int room, int phone, string email, int salary, string note)
         {
@@ -28,18 +33,18 @@ namespace CSharpFinalProject
             Surname = surname;
             SecondName = secondname;
             BirthDay = birthday;
-            employmentDate = empDate;
-            position = pos;
-            division = div;
-            this.room = room;
-            this.phone = phone;
-            this.email = email;
-            this.salary = salary;
-            notes = note;
+            EmploymentDate = empDate;
+            Position = pos;
+            Division = div;
+            Room = room;
+            Phone = phone;
+            Email = email;
+            Salary = salary;
+            Notes = note;
         }
         public override string ToString()
         {
-            return String.Format(ID + "; " + Surname + "; " + Name + "; " + SecondName + "; " + BirthDay.ToShortDateString() + "; " + employmentDate.ToShortDateString() + "; " + position + "; " + division + "; " + room + "; " + phone + "; " + email + "; " + salary + "; " + notes);
+            return String.Format(ID + "; " + Surname + "; " + Name + "; " + SecondName + "; " + BirthDay.ToShortDateString() + "; " + EmploymentDate.ToShortDateString() + "; " + Position + "; " + Division + "; " + Room + "; " + Phone + "; " + Email + "; " + Salary + "; " + Notes);
         }
         public static explicit operator Employee(string str)
         {
@@ -53,7 +58,6 @@ namespace CSharpFinalProject
         List<Employee> employees = new List<Employee>();
         public void AddEmployee(string name, string surname, string secondname, DateTime birthday, DateTime empDate, string pos, string div, int room, int phone, string email, int salary, string note)
         {
-            
             employees.Add(new Employee(employees[employees.Count-1].ID+1, name, surname, secondname, birthday, empDate, pos, div, room, phone, email, salary, note));
         }
         public void AddEmployee(Employee e)
@@ -73,21 +77,21 @@ namespace CSharpFinalProject
             Console.WriteLine("Дата народження:");
             e.BirthDay =  DateTime.Parse(Console.ReadLine());
             Console.WriteLine("Дата прийняття на роботу:");
-            e.employmentDate = DateTime.Parse(Console.ReadLine());
+            e.EmploymentDate = DateTime.Parse(Console.ReadLine());
             Console.WriteLine("Посада:");
-            e.position = Console.ReadLine();
+            e.Position = Console.ReadLine();
             Console.WriteLine("Підрозділ");
-            e.division = Console.ReadLine();
+            e.Division = Console.ReadLine();
             Console.WriteLine("Номер кімнати:");
-            e.room = int.Parse(Console.ReadLine());
+            e.Room = int.Parse(Console.ReadLine());
             Console.WriteLine("Службовий телефон:");
-            e.phone = int.Parse(Console.ReadLine());
+            e.Phone = int.Parse(Console.ReadLine());
             Console.WriteLine("Зарплата:");
-            e.salary = int.Parse(Console.ReadLine());
+            e.Salary = int.Parse(Console.ReadLine());
             Console.WriteLine("e-mail:");
-            e.email = Console.ReadLine();
+            e.Email = Console.ReadLine();
             Console.WriteLine("Нотатки:");
-            e.notes = Console.ReadLine();
+            e.Notes = Console.ReadLine();
             employees.Add(e);
         }
         public void DeleteEmployee(int id)
@@ -100,30 +104,27 @@ namespace CSharpFinalProject
             catch (ArgumentOutOfRangeException)
             {
                 Console.WriteLine("Працівника з таким ID не існує!");
-                //throw;
             }
-            
         }
         public void EditEmployee(int id)
         {
             try
             {
-
                 int i = IdToIndex(id);
                 Console.WriteLine("Enter new value for position:");
-                employees[i].position = Console.ReadLine();
+                employees[i].Position = Console.ReadLine();
                 Console.WriteLine("Enter new value for division:");
-                employees[i].division = Console.ReadLine();
+                employees[i].Division = Console.ReadLine();
                 Console.WriteLine("Enter new value for room number:");
-                employees[i].room = int.Parse(Console.ReadLine());
+                employees[i].Room = int.Parse(Console.ReadLine());
                 Console.WriteLine("Enter new value for phone:");
-                employees[i].phone = int.Parse(Console.ReadLine());
+                employees[i].Phone = int.Parse(Console.ReadLine());
                 Console.WriteLine("Enter new value for salary:");
-                employees[i].salary = int.Parse(Console.ReadLine());
+                employees[i].Salary = int.Parse(Console.ReadLine());
                 Console.WriteLine("Enter new value for e-mail:");
-                employees[i].email = Console.ReadLine();
+                employees[i].Email = Console.ReadLine();
                 Console.WriteLine("Enter new value for notes:");
-                employees[i].notes = Console.ReadLine();
+                employees[i].Notes = Console.ReadLine();
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -146,7 +147,5 @@ namespace CSharpFinalProject
         {
             return employees.GetEnumerator();
         }
-        
     }
-
 }
